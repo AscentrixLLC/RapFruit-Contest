@@ -44,6 +44,17 @@
         button:hover {
             background-color: #45a049;
         }
+        #loginForm {
+            margin-top: 40px;
+        }
+        #adminPanel {
+            display: none;
+        }
+        #loginError {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -70,11 +81,25 @@
         </div>
     </div>
 
+    <!-- Admin Login Form -->
+    <div id="loginForm">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Login</button>
+        <p id="loginError">Invalid credentials! Please try again.</p>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel">
+        <h2>Admin Panel</h2>
+        <p>No join requests yet.</p>
+    </div>
+
     <script>
-        // Target date for the countdown
         const targetDate = new Date('December 31, 2024 06:00:00').getTime();
 
-        // Countdown Timer Logic
+        // Countdown Timer
         setInterval(() => {
             const now = new Date().getTime();
             const timeLeft = targetDate - now;
@@ -85,7 +110,6 @@
                 const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-                // Ensure proper formatting (e.g., 01 instead of 1)
                 const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
                 const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
@@ -96,7 +120,7 @@
             }
         }, 1000);
 
-        // Join Request Logic
+        // Join Request
         document.getElementById('joinButton').addEventListener('click', () => {
             const username = prompt('Enter your name to join:');
             if (username) {
@@ -104,6 +128,22 @@
                 alert(`${username}, your join request has been submitted!`);
             } else {
                 alert("You need to provide a name to join!");
+            }
+        });
+
+        // Admin Login
+        const validUsername = "Admin";
+        const validPassword = "RapFruitContestAdmin02902123";
+
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === validUsername && password === validPassword) {
+                document.getElementById('loginForm').style.display = "none";
+                document.getElementById('adminPanel').style.display = "block";
+            } else {
+                document.getElementById('loginError').style.display = "block";
             }
         });
     </script>

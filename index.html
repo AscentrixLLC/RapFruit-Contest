@@ -46,13 +46,24 @@
         }
         #loginForm {
             margin-top: 40px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            display: block;
         }
-        #adminPanel {
-            display: none;
+        #loginForm input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         #loginError {
             color: red;
             margin-top: 10px;
+            display: none;
+        }
+        #adminPanel {
+            margin-top: 20px;
             display: none;
         }
     </style>
@@ -62,6 +73,15 @@
         <h1>Rap Fruit Contest</h1>
         <p>Join the fun and show your rhyming skills!</p>
     </header>
+
+    <!-- Admin Login Form -->
+    <div id="loginForm">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Login</button>
+        <p id="loginError">Invalid credentials! Please try again.</p>
+    </div>
 
     <div class="countdown" id="countdown">
         Loading countdown...
@@ -81,25 +101,16 @@
         </div>
     </div>
 
-    <!-- Admin Login Form -->
-    <div id="loginForm">
-        <h2>Admin Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button id="loginButton">Login</button>
-        <p id="loginError">Invalid credentials! Please try again.</p>
-    </div>
-
-    <!-- Admin Panel -->
+    <!-- Admin Panel (Initially hidden) -->
     <div id="adminPanel">
         <h2>Admin Panel</h2>
         <p>No join requests yet.</p>
     </div>
 
     <script>
+        // Countdown Timer Logic
         const targetDate = new Date('December 31, 2024 06:00:00').getTime();
 
-        // Countdown Timer
         setInterval(() => {
             const now = new Date().getTime();
             const timeLeft = targetDate - now;
@@ -120,7 +131,7 @@
             }
         }, 1000);
 
-        // Join Request
+        // Join Request Logic
         document.getElementById('joinButton').addEventListener('click', () => {
             const username = prompt('Enter your name to join:');
             if (username) {
@@ -131,7 +142,7 @@
             }
         });
 
-        // Admin Login
+        // Admin Login Logic
         const validUsername = "Admin";
         const validPassword = "RapFruitContestAdmin02902123";
 

@@ -29,7 +29,7 @@
             margin-top: 40px;
             font-size: 1.2em;
         }
-        .join-container, #adminPanel {
+        .join-container {
             margin-top: 30px;
         }
         button {
@@ -43,20 +43,6 @@
         }
         button:hover {
             background-color: #45a049;
-        }
-        #loginForm, #adminPanel {
-            display: none;
-        }
-        .join-request {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px auto;
-            width: 80%;
-            text-align: left;
-            background: #f1f1f1;
-        }
-        .join-request button {
-            margin-left: 10px;
         }
     </style>
 </head>
@@ -84,30 +70,11 @@
         </div>
     </div>
 
-    <!-- Admin Login Form -->
-    <div id="loginForm">
-        <h2>Admin Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button id="loginButton">Login</button>
-        <p id="loginError" style="color: red; display: none;">Invalid credentials!</p>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="adminPanel">
-        <h2>Admin Panel</h2>
-        <div id="requestsList">
-            <p>No join requests yet.</p>
-        </div>
-    </div>
-
     <script>
+        // Target date for the countdown
         const targetDate = new Date('December 31, 2024 06:00:00').getTime();
-        const joinRequests = [];
-        const validUsername = "Admin";
-        const validPassword = "RapFruitContestAdmin02902123";
 
-        // Countdown Timer
+        // Countdown Timer Logic
         setInterval(() => {
             const now = new Date().getTime();
             const timeLeft = targetDate - now;
@@ -115,10 +82,15 @@
             if (timeLeft > 0) {
                 const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeLeft % (1000)) / 1000);
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                // Ensure proper formatting (e.g., 01 instead of 1)
+                const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+                const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
                 document.getElementById('countdown').innerText = 
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                    `${days}d ${hours}h ${formattedMinutes}m ${formattedSeconds}s`;
             } else {
                 document.getElementById('countdown').innerText = "The Rap Fruit Contest has started!";
             }
@@ -128,66 +100,12 @@
         document.getElementById('joinButton').addEventListener('click', () => {
             const username = prompt('Enter your name to join:');
             if (username) {
-                joinRequests.push(username);
                 document.getElementById('joinSuccess').style.display = "block";
                 alert(`${username}, your join request has been submitted!`);
             } else {
                 alert("You need to provide a name to join!");
             }
         });
-
-        // Admin Login
-        document.body.onload = () => {
-            document.getElementById('loginForm').style.display = "block";
-        };
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === validUsername && password === validPassword) {
-                document.getElementById('loginForm').style.display = "none";
-                document.getElementById('adminPanel').style.display = "block";
-                updateRequestsList();
-            } else {
-                document.getElementById('loginError').style.display = "block";
-            }
-        });
-
-        // Update Admin Requests List
-        function updateRequestsList() {
-            const requestsList = document.getElementById('requestsList');
-            requestsList.innerHTML = "";
-
-            if (joinRequests.length === 0) {
-                requestsList.innerHTML = "<p>No join requests yet.</p>";
-                return;
-            }
-
-            joinRequests.forEach((request, index) => {
-                const requestDiv = document.createElement('div');
-                requestDiv.className = "join-request";
-                requestDiv.innerHTML = `
-                    <span>${request}</span>
-                    <button onclick="acceptRequest(${index})">Accept</button>
-                    <button onclick="declineRequest(${index})">Decline</button>
-                `;
-                requestsList.appendChild(requestDiv);
-            });
-        }
-
-        // Accept Request
-        function acceptRequest(index) {
-            alert(`${joinRequests[index]} has been accepted!`);
-            joinRequests.splice(index, 1);
-            updateRequestsList();
-        }
-
-        // Decline Request
-        function declineRequest(index) {
-            alert(`${joinRequests[index]} has been declined.`);
-            joinRequests.splice(index, 1);
-            updateRequestsList();
-        }
     </script>
 </body>
-      </html>
+</html>
